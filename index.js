@@ -42,14 +42,11 @@ app.use('/putsensordata', async (req, res) => {
     res.send('ok')
 })
 
-// app.use('/getswandatas/', async (req, res) => {
-//     const data = await knex.select('swan_id').from('data')
-//     console.log(data)
-//     ids = data.map(o => o.id)
-//     const filteredData = data.filter(({id}, index) => !ids.includes(id, index+1))
-//     console.log(filteredData)
-//     res.send(filteredData)
-// })
+app.use('/getswandatas/', async (req, res) => {
+    const data = await knex.select('swan_id').distinct().from('data')
+    console.log(data)
+    res.send(data)
+})
 
 app.use('/getcoorddata/:id', async (req, res) => {
     const ids = await knex.select('sensor_id').where('swan_id', req.params.id).from('data')
