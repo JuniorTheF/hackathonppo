@@ -42,6 +42,24 @@ app.use('/putsensordata', async (req, res) => {
     res.send('ok')
 })
 
-// app.use('/putswandata', async (req, res) => {
-//     data = await fetch
+// app.use('/getswandatas/', async (req, res) => {
+//     const data = await knex.select('swan_id').from('data')
+//     console.log(data)
+//     ids = data.map(o => o.id)
+//     const filteredData = data.filter(({id}, index) => !ids.includes(id, index+1))
+//     console.log(filteredData)
+//     res.send(filteredData)
 // })
+
+app.use('/getcoorddata/:id', async (req, res) => {
+    const ids = await knex.select('sensor_id').where('swan_id', req.params.id).from('data')
+    const rate = await knex.select('rate').where('swan_id', req.params.id).from('data')
+    const newids = ids.map(item => item.sensor_id)
+    const coord_x = await knex.select('coord_x').whereIn('sensor_id', newids).from('sensor')
+    const coord_y = await knex.select('coord_y').whereIn('sensor_id', newids).from('sensor')
+
+    console.log(ids.map(id => id.sensor_id))
+    console.log([ids, rate, [coord_x, coord_y]])
+    const pshod = [ids, rate, coord_x, coord_y]
+    res.send(pshod)
+})
