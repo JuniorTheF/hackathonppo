@@ -2,8 +2,8 @@
 exports.up = function(knex) {
     return knex.schema
     .createTable('sensor', function (table) {
-      table.increments('id').unique();
-      table.string('sensor_id', 255).notNullable()
+      table.increments('id');
+      table.string('sensor_id', 255).notNullable().unique()
       table.integer('coord_x', 255).notNullable()
       table.integer('coord_y', 255).notNullable()
     });
