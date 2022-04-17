@@ -4,9 +4,11 @@ const app = express()
 const port = 3000
 const fetch = require('isomorphic-fetch')
 const knex = require('./knex').default
-
+const cors = require('cors')
 
 app.use(bodyParser.json())
+
+app.use(cors)
 
 app.get('/', (req, res) => {
     res.send('12')
